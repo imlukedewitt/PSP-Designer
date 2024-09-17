@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   const elements = {
-    addProductMenuButton: document.getElementById('add-product-menu-btn'),
-    productMenuContainer: document.getElementById('product-menu-container'),
+    addPairButton: document.getElementById('add-pair-btn'),
+    searchReplaceContainer: document.getElementById('search-replace-container'),
+    addRequireCustomButton: document.getElementById('add-require-custom-btn'),
+    requireCustomContainer: document.getElementById('require-custom-container'),
+    addHideCustomButton: document.getElementById('add-hide-custom-btn'),
+    hideCustomContainer: document.getElementById('hide-custom-container')
   };
 
   function createElement(tag, options = {}) {
@@ -18,36 +22,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return element;
   }
 
-  function createProductFieldElement() {
-    const fieldDiv = createElement('div', { classes: ['product-field-pair'] });
+  function createPairElement() {
+    const pairDiv = createElement('div', { classes: ['search-replace-pair'] });
 
-    const urlLabel = createElement('label', { textContent: 'Product URL' });
-    const urlInput = createElement('input', {
+    const searchInput = createElement('input', {
       type: 'text',
-      classes: ['product-url-text'],
-      placeholder: 'Enter Product URL',
+      classes: ['search-text'],
+      placeholder: 'Search Text',
       events: [{
         type: 'change',
         handler: updatePreview
       }]
     });
 
-    const nameLabel = createElement('label', { textContent: 'Product Name' });
-    const nameInput = createElement('input', {
+    const replaceInput = createElement('input', {
       type: 'text',
-      classes: ['product-name-text'],
-      placeholder: 'Enter Product Name',
-      events: [{
-        type: 'change',
-        handler: updatePreview
-      }]
-    });
-
-    const descriptionLabel = createElement('label', { textContent: 'Product Description' });
-    const descriptionInput = createElement('input', {
-      type: 'text',
-      classes: ['product-description-text'],
-      placeholder: 'Enter Product Description',
+      classes: ['replace-text'],
+      placeholder: 'Replace Text',
       events: [{
         type: 'change',
         handler: updatePreview
@@ -61,14 +52,45 @@ document.addEventListener('DOMContentLoaded', () => {
       events: [{
         type: 'click',
         handler: () => {
-          elements.productMenuContainer.removeChild(fieldDiv);
-          updateAccordionHeight(elements.productMenuContainer);
+          elements.searchReplaceContainer.removeChild(pairDiv);
+          updateAccordionHeight(elements.searchReplaceContainer);
           updatePreview();
         }
       }]
     });
 
-    [urlLabel, urlInput, nameLabel, nameInput, descriptionLabel, descriptionInput, removeButton].forEach(child => fieldDiv.appendChild(child));
+    [searchInput, replaceInput, removeButton].forEach(child => pairDiv.appendChild(child));
+    return pairDiv;
+  }
+
+  function createCustomFieldElement(container) {
+    const fieldDiv = createElement('div', { classes: ['custom-field-pair'] });
+
+    const fieldInput = createElement('input', {
+      type: 'text',
+      classes: ['custom-field-text'],
+      placeholder: 'Custom Field Name',
+      events: [{
+        type: 'change',
+        handler: updatePreview
+      }]
+    });
+
+    const removeButton = createElement('button', {
+      type: 'button',
+      classes: ['remove-pair-btn'],
+      textContent: 'Remove',
+      events: [{
+        type: 'click',
+        handler: () => {
+          container.removeChild(fieldDiv);
+          updateAccordionHeight(container);
+          updatePreview();
+        }
+      }]
+    });
+
+    [fieldInput, removeButton].forEach(child => fieldDiv.appendChild(child));
     return fieldDiv;
   }
 
@@ -87,5 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  attachAddButtonEvent(elements.addProductMenuButton, elements.productMenuContainer, createProductFieldElement);
+  attachAddButtonEvent(elements.addPairButton, elements.searchReplaceContainer, createPairElement);
+  attachAddButtonEvent(elements.addRequireCustomButton, elements.requireCustomContainer, createCustomFieldElement);
+  attachAddButtonEvent(elements.addHideCustomButton, elements.hideCustomContainer, createCustomFieldElement);
 });
