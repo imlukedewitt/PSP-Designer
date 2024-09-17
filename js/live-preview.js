@@ -2,6 +2,7 @@
 // It is used to preview the changes made in the configuration page in real time
 
 function decodeUrlParam(param) {
+  if (!param || param.trim() === '') return '';
   let replacedString = param.replace(/\+/g, ' ');
   return decodeURIComponent(replacedString);
 }
@@ -406,7 +407,6 @@ function generateCSS() {
     hoverColor: params.hoverColor || '#2980b9'
   }
   if (!config.setAccentColor && !config.addMenu) {
-    document.getElementById('generated-css').textContent = '\n\n';
     return;
   }
 
