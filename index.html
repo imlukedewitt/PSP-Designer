@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom JS and CSS Generator</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <link href="css/prism.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div class="sidebar">
+    <h1>PSP DESIGNER</h1>
+    <div class="accordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" onclick="toggleAccordion(this)">Look And Feel <span class="accordion-icon">+</span>
+        </h2>
+        <div class="accordion-content">
+          <div class="form-group">
+            <label for="set-accent-color">
+              <input type="checkbox" id="set-accent-color" name="set-accent-color"
+                onchange="followDisable('set-accent-color', 'accent-color', 'hover-color')"> Set accent colors:
+            </label>
+            <div class="color-selectors">
+              <div class="color-selector">
+                <label for="accent-color">Accent:</label>
+                <input type="color" id="accent-color" name="accent-color" disabled value="#0591af">
+              </div>
+              <div class="color-selector">
+                <label for="hover-color">Hover:</label>
+                <input type="color" id="hover-color" name="hover-color" disabled value="#105d97">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="set-gooogle-font">
+              <input type="checkbox" id="set-gooogle-font" name="set-gooogle-font"
+                onchange="followDisable('set-gooogle-font', 'google-font-name')"> Add Google Font
+            </label>
+            <input type="text" id="google-font-name" placeholder="Enter Google Font Name" disabled>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" onclick="toggleAccordion(this)">Product Menu <span class="accordion-icon">+</span>
+        </h2>
+        <div class="accordion-content">
+          <div class="form-group">
+            <div id="product-menu-container"></div>
+            <button type="button" class="add-field-btn" id="add-product-menu-btn">+ Add Product</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" onclick="toggleAccordion(this)">Require Fields <span
+            class="accordion-icon">+</span></h2>
+        <div class="accordion-content">
+          <form id="custom-js-form">
+            <div class="form-group">
+              <label for="require-phone">
+                <input type="checkbox" id="require-phone" name="require-phone"
+                  onchange="toggleDisable('require-phone', 'hide-phone')"> Require Phone Number
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="require-org">
+                <input type="checkbox" id="require-org" name="require-org"
+                  onchange="toggleDisable('require-org', 'hide-org')"> Require Organization
+              </label>
+            </div>
+            <div class="form-group">
+              <br>
+              <div id="require-custom-container"></div>
+              <button type="button" id="add-require-custom-btn">+ Add Required Custom Field</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" onclick="toggleAccordion(this)">Hide Fields <span class="accordion-icon">+</span>
+        </h2>
+        <div class="accordion-content">
+          <form id="custom-js-form">
+            <div class="form-group">
+              <label for="hide-phone">
+                <input type="checkbox" id="hide-phone" name="hide-phone"
+                  onchange="toggleDisable('hide-phone', 'require-phone')"> Hide Phone Number
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="hide-org">
+                <input type="checkbox" id="hide-org" name="hide-org"
+                  onchange="toggleDisable('hide-org', 'require-org')"> Hide Organization
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="hide-recurring-fee">
+                <input type="checkbox" id="hide-recurring-fee" name="hide-recurring-fee"> Hide Recurring Fee
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="hide-component-fee">
+                <input type="checkbox" id="hide-component-fee" name="hide-component-fee"> Hide Component Fee
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="hide-page-header">
+                <input type="checkbox" id="hide-page-header" name="hide-page-header"> Hide Page Header
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="hide-product-name">
+                <input type="checkbox" id="hide-product-name" name="hide-product-name"> Hide Product Name
+              </label>
+            </div>
+            <br>
+            <div class="form-group">
+              <div id="hide-custom-container"></div>
+              <button type="button" id="add-hide-custom-btn">+ Hide Custom Field</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" onclick="toggleAccordion(this)">Read-Only Fields <span
+            class="accordion-icon">+</span>
+        </h2>
+        <div class="accordion-content">
+          <form id="custom-js-form">
+            <div class="form-group">
+              <label for="disable-phone">
+                <input type="checkbox" id="disable-phone" name="disable-phone"> Phone Number
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="disable-coupon">
+                <input type="checkbox" id="disable-coupon" name="disable-coupon"> Coupon Code
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="disable-email">
+                <input type="checkbox" id="disable-email" name="disable-email"> Email
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="disable-org">
+                <input type="checkbox" id="disable-org" name="disable-org"> Organization
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" onclick="toggleAccordion(this)">Change Text <span class="accordion-icon">+</span>
+        </h2>
+        <div class="accordion-content">
+          <div class="form-group">
+            <div id="search-replace-container">
+              <div class="search-replace-pair" id="initial-pair">
+                <input type="text" class="search-text" placeholder="Search Text">
+                <input type="text" class="replace-text" placeholder="Replace Text">
+                <div class="remove-pair-placeholder"></div>
+              </div>
+            </div>
+            <button type="button" id="add-pair-btn">Add New Pair</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <button type="button" style="margin-top: 30px;" class="btn" onclick="generateUrlString()">Generate URL string for
+      testing</button> -->
+    <button type="button" style="margin-top: 10px;" class="btn submit-btn" onclick="toggleRightSidebar()">Generate
+      Code</button>
+    <!-- <input type="text" id="url-string" style="width: 100%; margin-top: 10px;" readonly> -->
+  </div>
+
+  <div class="main">
+    <div class="preview-container" id="preview-container">
+      <div class="overlay"></div>
+      <iframe src="https://bargify.chargifypay.com/subscribe/2mwmzkwv5n4m/secondfreemo" id="preview-iframe"></iframe>
+    </div>
+  </div>
+
+  <div class="sidebar right-sidebar" id="right-sidebar">
+    <button class="close-btn" onclick="toggleRightSidebar()">×</button>
+    <h2>Generated JavaScript:</h2>
+    <pre><code id="generated-js" class="language-js"></code></pre>
+    <div class="copy-container">
+      <button class="copy-btn" onclick="copyToClipboard('generated-js')">Copy</button>
+      <span id="js-copy-message" class="copy-message"></span>
+    </div>
+    <h2>Generated CSS:</h2>
+    <pre><code id="generated-css" class="language-css"></code></pre>
+    <div class="copy-container">
+      <button class="copy-btn" onclick="copyToClipboard('generated-css')">Copy</button>
+      <span id="css-copy-message" class="copy-message"></span>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/prettier@2.8.8/standalone.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prettier@2.8.8/parser-babel.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prettier@2.8.8/parser-postcss.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/generator.js"></script>
+  <script src="js/css-generator.js"></script>
+  <script src="js/custom-fields.js"></script>
+  <script src="js/product-menu-fields.js"></script>
+  <script>
+    function generateUrlString(config = getConfig()) {
+      const params = new URLSearchParams();
+      Object.entries(config).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          params.set(key, JSON.stringify(value));
+        } else if (typeof value === 'object' && value !== null) {
+          params.set(key, JSON.stringify(value));
+        } else {
+          params.set(key, value);
+        }
+      });
+      // add the css config too
+      params.set('setAccentColor', document.getElementById('set-accent-color').checked);
+      params.set('accentColor', document.getElementById('accent-color').value);
+      params.set('hoverColor', document.getElementById('hover-color').value);
+      params.set('addMenu', $('#product-menu-container').children().length > 0)
+
+      return params.toString();
+    }
+
+    function generateCode() {
+      generateCSS();
+      generateJS();
+      highlightPrismSyntax('generated-js');
+      highlightPrismSyntax('generated-css');
+    }
+
+    function highlightPrismSyntax(elementId) {
+      var element = document.getElementById(elementId);
+      if (typeof Prism !== 'undefined') {
+        Prism.highlightElement(element);
+      }
+    }
+
+    function copyToClipboard(elementId) {
+      generateCode();
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const messageElement = elementId === 'generated-js' ? document.getElementById('js-copy-message') : document.getElementById('css-copy-message');
+        messageElement.textContent = 'Copied to clipboard!';
+        setTimeout(() => {
+          messageElement.textContent = '';
+        }, 2000);
+      });
+    }
+
+    function toggleAccordion(header) {
+      const accordionItems = document.querySelectorAll('.accordion-item');
+      accordionItems.forEach(item => {
+        const content = item.querySelector('.accordion-content');
+        const icon = item.querySelector('.accordion-icon');
+        if (item.contains(header)) {
+          const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+          if (isOpen) {
+            content.style.maxHeight = '0';
+            content.style.padding = '0 0';
+          } else {
+            content.style.maxHeight = `${content.scrollHeight}px`;
+            content.style.padding = '10px 0';
+          }
+          icon.textContent = isOpen ? '+' : '-';
+        } else {
+          content.style.maxHeight = '0';
+          content.style.padding = '0 0';
+          icon.textContent = '+';
+        }
+      });
+    }
+
+    function toggleRightSidebar() {
+      const rightSidebar = document.getElementById('right-sidebar');
+      rightSidebar.classList.toggle('visible');
+    }
+
+    // Function to add event listeners to all relevant inputs and checkboxes
+    function addGenerateCodeEventListeners() {
+      const elements = $('input, select, text, textarea, .add-field-btn, .remove-pair-btn');
+      elements.on('change click', updatePreview);
+    }
+
+    function updatePreview() {
+      generateCode();
+      let urlString = generateUrlString();
+      document.getElementById('preview-iframe').src = `https://bargify.chargifypay.com/subscribe/2mwmzkwv5n4m/freeyr?${urlString}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      addGenerateCodeEventListeners();
+    });
+
+    generateCode();
+  </script>
+
+  <script src="js/prism.js" type="text/javascript"></script>
+</body>
+
+</html>
