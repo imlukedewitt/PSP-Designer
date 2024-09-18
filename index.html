@@ -38,9 +38,10 @@
           <div class="form-group">
             <label for="set-gooogle-font">
               <input type="checkbox" id="set-gooogle-font" name="set-gooogle-font"
-                onchange="followDisable('set-gooogle-font', 'google-font-name')"> Add Google Font
+                onchange="followDisable('set-gooogle-font', 'google-font-name')"> Add <a href="https://fonts.google.com/" target="_blank">Google Font</a>
             </label>
             <input type="text" id="google-font-name" placeholder="Enter Google Font Name" disabled>
+            <br><small><b>Note:</b> Font names are case sensitive</small>
           </div>
         </div>
       </div>
@@ -50,6 +51,7 @@
         </h2>
         <div class="accordion-content">
           <div class="form-group">
+            <small>Add a product menu to the page, allowing users to select a different PSP<br><br></small>
             <div id="product-menu-container"></div>
             <button type="button" class="add-field-btn" id="add-product-menu-btn">+ Add Product</button>
           </div>
@@ -77,6 +79,7 @@
               <br>
               <div id="require-custom-container"></div>
               <button type="button" id="add-require-custom-btn">+ Add Required Custom Field</button>
+              <br><small><b>Note:</b> Custom field names are case sensitive</small>
             </div>
           </form>
         </div>
@@ -123,6 +126,7 @@
             <div class="form-group">
               <div id="hide-custom-container"></div>
               <button type="button" id="add-hide-custom-btn">+ Hide Custom Field</button>
+              <br><small><b>Note:</b> Custom field names are case sensitive</small>
             </div>
           </form>
         </div>
@@ -164,6 +168,7 @@
         <div class="accordion-content">
           <div class="form-group">
             <div id="search-replace-container">
+              <small><b>Note:</b> Search text is case sensitive</small>
               <div class="search-replace-pair" id="initial-pair">
                 <input type="text" class="search-text" placeholder="Search Text">
                 <input type="text" class="replace-text" placeholder="Replace Text">
