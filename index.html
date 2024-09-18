@@ -12,12 +12,14 @@
 </head>
 
 <body>
+
   <div class="sidebar">
     <h1>PSP Designer</h1>
     <div class="accordion">
       <div class="accordion-item">
         <h2 class="accordion-header" onclick="toggleAccordion(this)">Look And Feel <span class="accordion-icon">+</span>
         </h2>
+
         <div class="accordion-content">
           <div class="form-group">
             <label for="set-accent-color">
@@ -38,7 +40,8 @@
           <div class="form-group">
             <label for="set-gooogle-font">
               <input type="checkbox" id="set-gooogle-font" name="set-gooogle-font"
-                onchange="followDisable('set-gooogle-font', 'google-font-name')"> Add <a href="https://fonts.google.com/" target="_blank">Google Font</a>
+                onchange="followDisable('set-gooogle-font', 'google-font-name')"> Add <a
+                href="https://fonts.google.com/" target="_blank">Google Font</a>
             </label>
             <input type="text" id="google-font-name" placeholder="Enter Google Font Name" disabled>
             <br><small><b>Note:</b> Font names are case sensitive</small>
@@ -180,16 +183,14 @@
         </div>
       </div>
     </div>
-    <!-- <button type="button" style="margin-top: 30px;" class="btn" onclick="generateUrlString()">Generate URL string for
-      testing</button> -->
     <button type="button" style="margin-top: 10px;" class="btn submit-btn" onclick="toggleRightSidebar()">Generate
       Code</button>
-    <!-- <input type="text" id="url-string" style="width: 100%; margin-top: 10px;" readonly> -->
   </div>
 
   <div class="main">
+    <div class="overlay"></div>
     <div class="preview-container" id="preview-container">
-      <div class="overlay"></div>
+
       <iframe src="https://psp-designer.chargifypay.com/subscribe/8frh7b3yvvrz/freemo" id="preview-iframe"></iframe>
     </div>
   </div>
@@ -291,9 +292,10 @@
     function toggleRightSidebar() {
       const rightSidebar = document.getElementById('right-sidebar');
       rightSidebar.classList.toggle('visible');
+      const overlay = document.querySelector('.overlay');
+      overlay.classList.toggle('visible');
     }
 
-    // Function to add event listeners to all relevant inputs and checkboxes
     function addGenerateCodeEventListeners() {
       const elements = $('input, select, text, textarea, .add-field-btn, .remove-pair-btn');
       elements.on('change click', updatePreview);
@@ -308,6 +310,14 @@
     document.addEventListener('DOMContentLoaded', () => {
       addGenerateCodeEventListeners();
     });
+
+    document.querySelector('.overlay').addEventListener('click', (event) => {
+      const overlayElement = event.currentTarget;
+      if (overlayElement.classList.contains('visible')) {
+        toggleRightSidebar();
+      }
+    });
+
 
     generateCode();
   </script>

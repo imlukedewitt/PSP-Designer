@@ -208,7 +208,7 @@ textarea {
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  pointer-events: none; /* Prevents the overlay from blocking interactions */
+  pointer-events: none;
   z-index: 999;
 }
 
