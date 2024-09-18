@@ -53,8 +53,13 @@ body {
   cursor: pointer;
 }
 
-.sidebar h1, .sidebar h2 {
+.sidebar h1 {
   font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.sidebar h2 {
+  font-size: 1.2em;
   margin-bottom: 20px;
 }
 
