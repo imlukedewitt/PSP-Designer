@@ -90,6 +90,12 @@ body {
   transition: max-height 0.2s ease-out, padding 0.2s ease-out;
 }
 
+.accordion-content a {
+  color: #48a0ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 .form-group {
   margin-bottom: 20px;
   width: 100%;
