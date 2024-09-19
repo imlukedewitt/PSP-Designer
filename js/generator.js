@@ -127,9 +127,11 @@ function generateHelperFunctions(config) {
     function showAlert(message) {
       var alert = $('<div class="content__alert--danger" role="alert">' + message + '</div>');
       alertsContainer.append(alert);
+      alertsContainer.removeClass('hide');
     }
     function clearAlerts() {
       alertsContainer.empty();
+      alertsContainer.addClass('hide');
     }`;
   }
 
@@ -202,7 +204,7 @@ function generateVariables(config) {
     variables += `// Initialize common variables
     var form = $("#signup-form");
     var submitBtn = $("#subscription_submit");
-    var alertsContainer = $('<div class="content__alerts"></div>');
+    var alertsContainer = $('<div class="content__alerts hide"></div>');
     $('.content__main .content__heading').after(alertsContainer);`;
   }
   if (config.requirePhone || config.hidePhone || config.disablePhone) variables += `var phoneField = $("#subscription_customer_attributes_phone");`;
