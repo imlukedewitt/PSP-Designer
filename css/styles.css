@@ -24,6 +24,39 @@ html, body {
   z-index: 1000;
 }
 
+.about-section {
+  background-color: #343a40;
+  color: white;
+  text-align: center;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 0 50px 0;
+  border-top: 1px solid #ffffff10;
+}
+
+.about-section p {
+  margin: 0;
+}
+
+.about-section a {
+  color: #ffffff;
+  text-decoration: none;
+  display: inline-block;
+  margin: 10px;
+  font-size: 1.3em;
+}
+
+.about-section a:hover {
+  color: #1e90ff;
+}
+
+.about-section .submit-btn {
+  margin: 20px 0;
+  width: 100%;
+}
+
 .left-sidebar {
   order: 1;
 }
