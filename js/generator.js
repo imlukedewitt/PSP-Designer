@@ -98,29 +98,6 @@ function prettifyGeneratedCode(code) {
   });
 }
 
-function generateVariables(config) {
-  let variables = '';
-  if (config.requirePhone || config.requireOrg || config.requireCustom) {
-    variables += `var form = $("#signup-form");
-    var submitBtn = $("#subscription_submit");
-    var alertsContainer = $('<div class="content__alerts"></div>');
-    $('.content__main').prepend(alertsContainer);`;
-  }
-  if (config.requirePhone || config.hidePhone || config.disablePhone) variables += `var phoneField = $("#subscription_customer_attributes_phone");`;
-  if (config.requireOrg || config.hideOrg || config.disableOrg) variables += `var orgField = $("#subscription_customer_attributes_organization");`;
-  if (config.requireCustom) {
-    const requiredCustomFieldNamesArray = JSON.stringify(config.requiredCustomFieldNames);
-    variables += `var requiredCustomFieldNames = ${requiredCustomFieldNamesArray};
-    var requiredCustomFields = requiredCustomFieldNames.map(name => selectCustomField(name));`;
-  }
-  if (config.hideCustom) {
-    const hiddenCustomFieldNamesArray = JSON.stringify(config.hiddenCustomFieldNames);
-    variables += `var hiddenCustomFieldNames = ${hiddenCustomFieldNamesArray};
-    var hiddenCustomFields = hiddenCustomFieldNames.map(name => selectCustomField(name));`;
-  }
-  return variables;
-}
-
 function generateHelperFunctions(config) {
   let code = '';
   if (config.requirePhone || config.requireOrg || config.requireCustom) {
@@ -228,6 +205,30 @@ function generateHelperFunctions(config) {
   }
 
   return code;
+}
+
+function generateVariables(config) {
+  let variables = '';
+  if (config.requirePhone || config.requireOrg || config.requireCustom) {
+    variables += `// Initialize common variables
+    var form = $("#signup-form");
+    var submitBtn = $("#subscription_submit");
+    var alertsContainer = $('<div class="content__alerts"></div>');
+    $('.content__main .content__heading').after(alertsContainer);`;
+  }
+  if (config.requirePhone || config.hidePhone || config.disablePhone) variables += `var phoneField = $("#subscription_customer_attributes_phone");`;
+  if (config.requireOrg || config.hideOrg || config.disableOrg) variables += `var orgField = $("#subscription_customer_attributes_organization");`;
+  if (config.requireCustom) {
+    const requiredCustomFieldNamesArray = JSON.stringify(config.requiredCustomFieldNames);
+    variables += `var requiredCustomFieldNames = ${requiredCustomFieldNamesArray};
+    var requiredCustomFields = requiredCustomFieldNames.map(name => selectCustomField(name));`;
+  }
+  if (config.hideCustom) {
+    const hiddenCustomFieldNamesArray = JSON.stringify(config.hiddenCustomFieldNames);
+    variables += `var hiddenCustomFieldNames = ${hiddenCustomFieldNamesArray};
+    var hiddenCustomFields = hiddenCustomFieldNames.map(name => selectCustomField(name));`;
+  }
+  return variables;
 }
 
 function generateFieldHandlers(config) {
