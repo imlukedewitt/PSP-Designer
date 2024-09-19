@@ -60,10 +60,4 @@ If you would like to contribute to this project, please feel free to create issu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-## Author
-
-- **Luke DeWitt**
-  - [GitHub](https://github.com/imlukedewitt)
-  - [LinkedIn](https://www.linkedin.com/in/imlukedewitt)
-
 Thank you for using PSP Designer! If you have any questions or feedback, don't hesitate to reach out.
