@@ -98,7 +98,7 @@ function generateVariables(config) {
   if (config.requirePhone || config.requireOrg || config.requireCustom) {
     variables += `var form = $("#signup-form");
     var submitBtn = $("#subscription_submit");
-    var alertsContainer = $('<div class="content__alerts"></div>');
+    var alertsContainer = $('<div class="content__alerts hide"></div>');
     $('.content__main .content__heading').after(alertsContainer);`;
   }
   if (config.requirePhone || config.hidePhone || config.disablePhone) variables += `var phoneField = $("#subscription_customer_attributes_phone");`;
@@ -141,12 +141,14 @@ function generateHelperFunctions(config) {
       field.parent().removeClass("has-error");
       field.next('.error-message').remove(); // remove existing error message
     }
-    function showAlert(message) {
+        function showAlert(message) {
       var alert = $('<div class="content__alert--danger" role="alert">' + message + '</div>');
       alertsContainer.append(alert);
+      alertsContainer.removeClass('hide');
     }
     function clearAlerts() {
       alertsContainer.empty();
+      alertsContainer.addClass('hide');
     }`;
   }
 
@@ -493,12 +495,12 @@ function generateMenuCSS(config) {
     }
 
     .product-selection-menu a:hover {
-      background-color: ${config.setAccentColor ? config.accentColor : '#3498db'};
+      background-color: #e1e8ed;
       color: #34495e;
     }
 
     .product-selection-menu a.active {
-      background-color: #3498db;
+      background-color: ${config.setAccentColor ? config.accentColor : '#3498db'};
       color: #ffffff;
     }
 
