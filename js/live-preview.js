@@ -99,7 +99,7 @@ function generateVariables(config) {
     variables += `var form = $("#signup-form");
     var submitBtn = $("#subscription_submit");
     var alertsContainer = $('<div class="content__alerts"></div>');
-    $('.content__main').prepend(alertsContainer);`;
+    $('.content__main .content__heading').after(alertsContainer);`;
   }
   if (config.requirePhone || config.hidePhone || config.disablePhone) variables += `var phoneField = $("#subscription_customer_attributes_phone");`;
   if (config.requireOrg || config.hideOrg || config.disableOrg) variables += `var orgField = $("#subscription_customer_attributes_organization");`;
