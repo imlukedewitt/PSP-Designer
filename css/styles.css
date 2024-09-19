@@ -1,9 +1,14 @@
 body {
   font-family: 'Inter', sans-serif;
   display: flex;
-  height: 100vh;
   margin: 0;
   background-color: #f8f9fa;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -184,7 +189,6 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
   order: 2;
   overflow-y: auto;
   position: relative;
@@ -234,6 +238,11 @@ pre {
   overflow: auto;
 }
 
+.language-css,
+.language-js {
+  max-height: 300px;
+}
+
 .copy-btn {
   background-color: #28a745;
   color: white;
@@ -252,7 +261,8 @@ pre {
   margin: 20px 0;
 }
 
-.copy-btn:hover, .submit-btn:hover {
+.copy-btn:hover,
+.submit-btn:hover {
   background-color: #218838;
 }
 
@@ -334,4 +344,21 @@ pre {
 
 .product-field-pair .remove-pair-btn:hover {
   background-color: #c82333;
+}
+
+.form-group select {
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.form-group select:focus {
+  outline: none;
+}
+
+#preview-iframe {
+  border: none;
+  overflow: hidden;
 }

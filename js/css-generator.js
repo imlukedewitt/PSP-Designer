@@ -1,15 +1,29 @@
 function generateCSS() {
   const config = {
     setAccentColor: document.getElementById('set-accent-color').checked,
+    accentColor: document.getElementById('accent-color').value,
+    hoverColor: document.getElementById('hover-color').value,
+    setBackgroundColor: document.getElementById('set-background-color').checked,
+    backgroundColor: document.getElementById('background-color').value,
+    darkMode: document.getElementById('dark-mode').checked,
+    pageStyle: document.getElementById('page-style').value,
     addMenu: $('#product-menu-container').children().length > 0
-  }
-  if (!config.setAccentColor && !config.addMenu) {
+  };
+
+  const isDefaultConfig = !config.setAccentColor &&
+    !config.addMenu &&
+    !config.setBackgroundColor &&
+    !config.darkMode &&
+    config.pageStyle === 'default';
+
+  if (isDefaultConfig) {
     document.getElementById('generated-css').textContent = '\n\n';
     return;
   }
 
   let generatedCSS = `
     ${generateAccentColorCSS(config)}
+    ${generateThemeCSS(config)}
     ${generateMenuCSS(config)}
   `;
   generatedCSS = prettifyGeneratedCSS(generatedCSS);
@@ -17,33 +31,179 @@ function generateCSS() {
 }
 
 function generateAccentColorCSS(config) {
-  const accentColor = document.getElementById('accent-color').value;
-  const hoverColor = document.getElementById('hover-color').value;
-  if (config.setAccentColor) {
-    return `
-      #subscription_submit, #form__section-apply-components, .form__button--primary, .btn-success {
-        border: solid 2px ${accentColor};
-        background-color: ${accentColor};
-        color: #FFF;
-      }
-      #form__section-apply-components:hover, #subscription_submit:hover, .form__button--is-submitting, .form__button--primary:hover, .form__button--primary:active, .form__button--primary:focus, .form__button--primary:disabled, .btn-success:hover {
-        background-color: ${hoverColor};
-        border: solid 2px ${hoverColor};
-        color: #FFF;
-        background-image: none;
-      }
-      .plan__summary-total {
-        color: ${accentColor};
-      }
-      .content__heading--mobile .content__heading-section--total {
-        color: #ffffff;
-      }
-    `;
-  } else return '';
+  if (!config.setAccentColor) return '';
+
+  const accentColor = config.accentColor;
+  const hoverColor = config.hoverColor;
+
+  return `
+    #subscription_submit, #form__section-apply-components, .form__button--primary, .btn-success {
+      border: solid 2px ${accentColor};
+      background-color: ${accentColor};
+      color: #FFF;
+    }
+    #form__section-apply-components:hover, #subscription_submit:hover, .form__button--is-submitting, .form__button--primary:hover, .form__button--primary:active, .form__button--primary:focus, .form__button--primary:disabled, .btn-success:hover {
+      background-color: ${hoverColor};
+      border: solid 2px ${hoverColor};
+      color: #FFF;
+      background-image: none;
+    }
+    .plan__summary-total {
+      color: ${accentColor};
+    }
+    .content__heading--mobile .content__heading-section--total {
+      color: #ffffff;
+    }
+  `;
+}
+
+function generateThemeCSS(config) {
+  if (config.pageStyle === 'default' && !config.darkMode && !config.setBackgroundColor) return '';
+
+  let backgroundColor;
+  if (config.setBackgroundColor) {
+    backgroundColor = config.backgroundColor;
+  } else if (config.pageStyle === 'minimal') {
+    backgroundColor = config.darkMode ? '#242424' : '#ffffff';
+  } else {
+    backgroundColor = '#1e2125';
+  }
+
+  const textColor = config.darkMode ? '#f9f9f9' : '#000000';
+  const borderColor = config.darkMode ? '#ffffff30' : '#00000030';
+
+  switch (config.pageStyle) {
+    case 'minimal':
+      return `
+        body {
+          background-color: ${backgroundColor};
+          color: ${textColor};
+          font-size: 16px;
+          padding: 0px 15px;
+        }
+        .content,
+        .content__main,
+        .content__secondary {
+          background: ${backgroundColor};
+          border: 0px;
+        }
+        .content__main {
+          border-right: 1px solid ${borderColor} !important;
+        }
+        .content__headings {
+          border: 0px solid #000;
+        }
+        .content__heading,
+        .form__section-heading {
+          background: ${backgroundColor};
+          color: ${textColor};
+          border-bottom: 1px solid ${borderColor};
+          padding: 20px;
+        }
+        .content__heading--mobile {
+          background: ${backgroundColor};
+          border: 1px solid ${borderColor};
+        }
+        .form__section--boxed {
+          border: 0px solid ${borderColor};
+          border-radius: 4px;
+        }
+        .form__field--boxed,
+        .form__field-custom-field {
+          border: 1px solid ${borderColor};
+        }
+        .form__section--boxed header {
+          background: ${backgroundColor};
+          border-bottom: 1px solid ${borderColor};
+          border-top-left-radius: 6px;
+          border-top-right-radius: 6px;
+          margin: 0;
+          padding: 10px;
+        }
+        .form__section--billing-address .form__field-radio-group .radio > .form__fields {
+          margin: 10px 0px;
+        }
+        .form__section--billing-address .form__field-radio-group .radio > .form__field {
+          margin: 20px 10px 0px 10px;
+        }
+        .form__field-radio-group {
+          border: 1px solid ${borderColor};
+        }
+        .form__field-radio-group .radio header {
+          background: ${backgroundColor};
+          color: ${textColor};
+        }
+        .form__field-radio-group .radio:not(:last-child) header {
+          border-bottom: 1px solid ${borderColor};
+        }
+        h1, h2 {
+          font-size: 18px;
+          color: ${textColor};
+          margin: 0;
+          font-weight: 500;
+        }
+        h3 {
+          padding-left: 0px !important;
+        }
+        .plan__summary-total {
+          font-size: 18px;
+          color: ${textColor};
+          border-top: 1px solid ${borderColor};
+        }
+      `;
+    case 'default':
+      return config.darkMode ? `
+        body {
+          background-color: ${backgroundColor};
+        }
+        .header, .header h1, .footer__operated-by-link, .footer__privacy-policy-link, h2, h3, h4 {
+          color: #f9f9f9;
+        }
+        .content, .content__main, .form__field-radio-group {
+          background-color: #232a31;
+          color: #f9f9f9;
+          border: 0px solid ${borderColor};
+        }
+        .content__headings,
+        .content__heading--mobile,
+        .form__section--credit-card header,
+        .form__section--configure-plan .form__field--boxed,
+        .form__section--billing-address .form__field-radio-group .radio header {
+          background: #38434f;
+          border: 1px solid ${borderColor};
+        }
+        .form__section--boxed header {
+          border: 0px;
+          border-bottom: 1px solid ${borderColor};
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+        }
+        .content__heading {
+          background: #38434f;
+          border-bottom: 0px solid ${borderColor};
+        }
+        .form__field-radio-group .radio:not(:last-child) header {
+          border-bottom: 1px solid ${borderColor};
+        }
+        .form__section--credit-card {
+          border: 1px solid ${borderColor};
+        }
+        .content__main {
+          border-right: 1px solid ${borderColor};
+        }
+      ` : `
+        body {
+          background-color: ${backgroundColor};
+        }
+      `;
+    default:
+      return '';
+  }
 }
 
 function generateMenuCSS(config) {
   if (!config.addMenu) return '';
+
   return `
     .product-selection-menu {
       display: flex;
@@ -81,7 +241,7 @@ function generateMenuCSS(config) {
     }
 
     .product-selection-menu a.active {
-      background-color: #3498db;
+      background-color: ${config.setAccentColor ? config.accentColor : '#3498db'};
       color: #ffffff;
     }
 

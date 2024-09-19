@@ -19,7 +19,6 @@
       <div class="accordion-item">
         <h2 class="accordion-header" onclick="toggleAccordion(this)">Look & Feel <span class="accordion-icon">+</span>
         </h2>
-
         <div class="accordion-content">
           <div class="form-group">
             <label for="set-accent-color">
@@ -38,6 +37,25 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="set-background-color">
+              <input type="checkbox" id="set-background-color" name="set-background-color"
+                onchange="followDisable('set-background-color', 'background-color')"> Set background color:
+            </label>
+            <input type="color" id="background-color" name="background-color" disabled value="#BACADE">
+          </div><br>
+          <div class="form-group">
+            <label for="page-style">Page style:</label>
+            <select id="page-style" name="page-style">
+              <option value="default">Default</option>
+              <option value="minimal">Minimal</option>
+            </select>
+          </div><br>
+          <div class="form-group">
+            <label for="dark-mode">
+              <input type="checkbox" id="dark-mode" name="dark-mode"> Dark mode
+            </label>
+          </div>
+          <div class="form-group">
             <label for="set-gooogle-font">
               <input type="checkbox" id="set-gooogle-font" name="set-gooogle-font"
                 onchange="followDisable('set-gooogle-font', 'google-font-name')"> Add <a
@@ -54,7 +72,7 @@
         </h2>
         <div class="accordion-content">
           <div class="form-group">
-            <small>Add a product menu to the page, allowing users to select a different PSP<br><br></small>
+            <small>Add a product menu to the page, making it easy to switch between signup pages<br><br></small>
             <div id="product-menu-container"></div>
             <button type="button" class="add-field-btn" id="add-product-menu-btn">+ Add Product</button>
           </div>
@@ -231,11 +249,14 @@
           params.set(key, value);
         }
       });
-      // add the css config too
       params.set('setAccentColor', document.getElementById('set-accent-color').checked);
       params.set('accentColor', document.getElementById('accent-color').value);
       params.set('hoverColor', document.getElementById('hover-color').value);
       params.set('addMenu', $('#product-menu-container').children().length > 0)
+      params.set('setBackgroundColor', document.getElementById('set-background-color').checked);
+      params.set('backgroundColor', document.getElementById('background-color').value);
+      params.set('darkMode', document.getElementById('dark-mode').checked);
+      params.set('pageStyle', document.getElementById('page-style').value);
 
       return params.toString();
     }
