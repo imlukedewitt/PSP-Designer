@@ -101,7 +101,8 @@ function prettifyGeneratedCode(code) {
 function generateHelperFunctions(config) {
   let code = '';
   if (config.requirePhone || config.requireOrg || config.requireCustom) {
-    code += `function addAsteriskToLabel(selector) {
+    code += `// Functions to handle validation and error display
+    function addAsteriskToLabel(selector) {
       var label = $('label[for="' + selector.substring(1) + '"]');
       label.text(label.text() + " *");
     }
@@ -133,14 +134,16 @@ function generateHelperFunctions(config) {
   }
 
   if (config.requireCustom || config.hideCustom) {
-    code += `function selectCustomField(fieldName) {
+    code += `// Function to select custom fields by name
+    function selectCustomField(fieldName) {
       let fieldID = $(".form__section--additional-information label:contains('" + fieldName + "')").attr('for');
       return $("#" + fieldID);
     }`;
   }
 
   if (config.hideRecurringFee || config.hideComponentFee || config.searchAndReplace) {
-    code += `function updateSummaryInfo() {
+    code += `// Function to update summary information
+    function updateSummaryInfo() {
       ${config.hideRecurringFee ? `$('#summary-recurring-charges').hide();` : ''}
       ${config.hideComponentFee ? `$('.plan__summary-component').hide();` : ''}
       ${config.searchReplacePairs.map(pair => {
@@ -153,15 +156,13 @@ function generateHelperFunctions(config) {
   }
 
   if (config.searchAndReplace) {
-    code += `function searchAndReplace(ogText, newText) {
-      // Traverse through the body and find all elements containing text
+    code += `// Function to perform search and replace in text nodes
+    function searchAndReplace(ogText, newText) {
       $('body').find('h1, h2, h3, button, label, td, .form__header-section--title').each(function() {
         var element = $(this);
         element.contents().filter(function() {
-          // Filter out only text nodes
           return this.nodeType === 3 && this.nodeValue.includes(ogText);
         }).each(function() {
-          // Replace the text in text nodes
           this.nodeValue = this.nodeValue.replace(new RegExp(ogText, 'g'), newText);
         });
       });
@@ -170,36 +171,24 @@ function generateHelperFunctions(config) {
 
   if (config.addMenu) {
     code += `
+      // Function to create product selection menu
       function createProductSelectionMenu(options) {
-        // Create a header and a div separately
         var header = $('<h3 class="form__section-heading">Product Selection</h3>');
         var menuDiv = $('<div class="product-selection-menu"></div>');
-    
-        // Get the current URL without query parameters
         var currentUrl = new URL(window.location.href);
         var currentBaseUrl = currentUrl.origin + currentUrl.pathname;
-
-        // Loop through options to create links
         options.forEach(function (option) {
-            // Get the base URL of the option without query parameters
             var optionUrl = option.url;
-
             var link = $('<a></a>')
                 .attr('href', option.url)
                 .addClass('packageSelection')
                 .append($('<p></p>').text(option.name))
                 .append($('<p></p>').addClass('caption').text(option.description));
-
-            // Check if the current base URL matches the option base URL
             if (currentBaseUrl === optionUrl) {
                 link.addClass('active');
             }
-
-            // Append the link to the menuDiv
             menuDiv.append(link);
         });
-
-        // Prepend the header and menuDiv to the form
         $('.content__signup-form').prepend(menuDiv).prepend(header);
       }`;
   }
@@ -235,76 +224,106 @@ function generateFieldHandlers(config) {
   let handlers = '$(document).ready(function() {';
   if (config.requirePhone) {
     handlers += `
+      // Add asterisk and validation to phone field
       addAsteriskToLabel("#subscription_customer_attributes_phone");
       handleBlurEvent(phoneField, "Phone number: cannot be blank.");`;
   }
   if (config.requireOrg) {
     handlers += `
+      // Add asterisk and validation to organization field
       addAsteriskToLabel("#subscription_customer_attributes_organization");
       handleBlurEvent(orgField, "Organization: cannot be blank.");`;
   }
   if (config.requireCustom) {
     handlers += `
+      // Add asterisk and validation to custom fields
       requiredCustomFields.forEach(field => {
         handleBlurEvent(field, "cannot be blank.");
         addAsteriskToLabel("#" + field.attr("id"));
       });`;
   }
   if (config.hidePhone) {
-    handlers += `$('.form__field--phone').hide();`;
+    handlers += `
+    // Hide phone field
+    $('.form__field--phone').hide();`;
   }
   if (config.hideOrg) {
-    handlers += `$('.form__field--organization-name').hide();`;
+    handlers += `
+    // Hide organization field
+    $('.form__field--organization-name').hide();`;
   }
   if (config.hideCustom) {
     handlers += `
+      // Hide custom fields
       hiddenCustomFields.forEach(field => {
         field.closest('.form__field-custom-field').hide();
       });`;
   }
   if (config.setGoogleFont) {
-    handlers += `$('head').append('<link href="https://fonts.googleapis.com/css?family=${config.googleFontName}" rel="stylesheet" type="text/css">');
+    handlers += `
+    // Set Google font
+    $('head').append('<link href="https://fonts.googleapis.com/css?family=${config.googleFontName}" rel="stylesheet" type="text/css">');
     $('body').css('font-family', '${config.googleFontName}, sans-serif');`
   }
   if (config.hideRecurringFee || config.hideComponentFee) {
-    handlers += `updateSummaryInfo();`;
+    handlers += `
+    // Update summary info on load
+    updateSummaryInfo();`;
   }
   if (config.hidePageHeader) {
-    handlers += `$('body .header').hide();`;
+    handlers += `
+    // Hide page header
+    $('body .header').hide();`;
   }
   if (config.hideProduct) {
-    handlers += `$('.content__main .content__heading').hide();`
+    handlers += `
+    // Hide product name
+    $('.content__main .content__heading').hide();`
   }
   if (config.disablePhone) {
-    handlers += `phoneField.prop('disabled', true);`;
+    handlers += `
+    // Disable phone field
+    phoneField.prop('disabled', true);`;
   }
   if (config.disableCoupon) {
-    handlers += `$('#coupon_code').prop('disabled', true);`;
+    handlers += `
+    // Disable coupon field
+    $('#coupon_code').prop('disabled', true);`;
   }
   if (config.disableEmail) {
-    handlers += `$('#subscription_customer_attributes_email').prop('disabled', true);`;
+    handlers += `
+    // Disable email field
+    $('#subscription_customer_attributes_email').prop('disabled', true);`;
   }
   if (config.disableOrg) {
-    handlers += `orgField.prop('disabled', true);`;
+    handlers += `
+    // Disable organization field
+    orgField.prop('disabled', true);`;
   }
   if (config.searchAndReplace) {
     config.searchReplacePairs.forEach(pair => {
-      handlers += `searchAndReplace("${pair.searchText}", "${pair.replaceText}");`;
+      handlers += `
+      // Perform search and replace
+      searchAndReplace("${pair.searchText}", "${pair.replaceText}");`;
     });
   }
   if (config.productFields.length > 0) {
-    handlers += `createProductSelectionMenu(${JSON.stringify(config.productFields, null, 2)});\n`;
+    handlers += `
+    // Create product selection menu
+    createProductSelectionMenu(${JSON.stringify(config.productFields, null, 2)});\n`;
   }
   return handlers + `});`;
 }
 
 function generateSubmitHandler(config) {
   if (!config.requirePhone && !config.requireOrg && !config.requireCustom) return '';
-  let submitHandler = `submitBtn.click(function(e) {
+  let submitHandler = `// Validate required fields on submit
+    submitBtn.click(function(e) {
     var hasError = false;
     clearAlerts();`;
   if (config.requirePhone) {
     submitHandler += `
+      // Validate phone field on submit
       if (phoneField.val() === "") {
         showFieldError(phoneField, "Phone number: cannot be blank.");
         showAlert("Phone number: cannot be blank.");
@@ -315,6 +334,7 @@ function generateSubmitHandler(config) {
   }
   if (config.requireOrg) {
     submitHandler += `
+      // Validate organization field on submit
       if (orgField.val() === "") {
         showFieldError(orgField, "Organization: cannot be blank.");
         showAlert("Organization: cannot be blank.");
@@ -325,6 +345,7 @@ function generateSubmitHandler(config) {
   }
   if (config.requireCustom) {
     submitHandler += `
+      // Validate custom fields on submit
       requiredCustomFields.forEach((field, index) => {
         if (field.val() === "") {
           showFieldError(field, "cannot be blank");
@@ -348,22 +369,26 @@ function generateSubmitHandler(config) {
 
 function generateFormChangeHandler(config) {
   if (!config.requirePhone && !config.requireOrg && !config.requireCustom) return '';
-  let formChangeHandler = `form.change(function() {
+  let formChangeHandler = `// Enable submit button when all required fields are filled
+  form.change(function() {
     let allFilled = true;`;
   if (config.requirePhone) {
     formChangeHandler += `
+      // Check if phone field is filled
       if (phoneField.val() === "") {
         allFilled = false;
       }`;
   }
   if (config.requireOrg) {
     formChangeHandler += `
+      // Check if organization field is filled
       if (orgField.val() === "") {
         allFilled = false;
       }`;
   }
   if (config.requireCustom) {
     formChangeHandler += `
+      // Check if custom fields are filled
       requiredCustomFields.forEach(field => {
         if (field.val() === "") {
           allFilled = false;

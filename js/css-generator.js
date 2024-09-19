@@ -37,20 +37,24 @@ function generateAccentColorCSS(config) {
   const hoverColor = config.hoverColor;
 
   return `
+    /* Style for primary buttons */
     #subscription_submit, #form__section-apply-components, .form__button--primary, .btn-success {
       border: solid 2px ${accentColor};
       background-color: ${accentColor};
       color: #FFF;
     }
+    /* Hover and active states for primary buttons */
     #form__section-apply-components:hover, #subscription_submit:hover, .form__button--is-submitting, .form__button--primary:hover, .form__button--primary:active, .form__button--primary:focus, .form__button--primary:disabled, .btn-success:hover {
       background-color: ${hoverColor};
       border: solid 2px ${hoverColor};
       color: #FFF;
       background-image: none;
     }
+    /* Style for summary total text */
     .plan__summary-total {
       color: ${accentColor};
     }
+    /* Style for mobile content heading total */
     .content__heading--mobile .content__heading-section--total {
       color: #ffffff;
     }
@@ -75,6 +79,7 @@ function generateThemeCSS(config) {
   switch (config.pageStyle) {
     case 'minimal':
       return `
+        /* Minimal page style */
         body {
           background-color: ${backgroundColor};
           color: ${textColor};
@@ -153,6 +158,7 @@ function generateThemeCSS(config) {
       `;
     case 'default':
       return config.darkMode ? `
+        /* Default dark mode style */
         body {
           background-color: ${backgroundColor};
         }
@@ -192,6 +198,7 @@ function generateThemeCSS(config) {
           border-right: 1px solid ${borderColor};
         }
       ` : `
+        /* Default light mode style */
         body {
           background-color: ${backgroundColor};
         }
@@ -205,6 +212,7 @@ function generateMenuCSS(config) {
   if (!config.addMenu) return '';
 
   return `
+    /* Styles for product selection menu */
     .product-selection-menu {
       display: flex;
       justify-content: space-between;
