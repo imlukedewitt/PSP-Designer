@@ -273,7 +273,7 @@ pre {
 
 .language-css,
 .language-js {
-  max-height: 300px;
+  height: 18%;
 }
 
 .copy-btn {
